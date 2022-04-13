@@ -1,5 +1,6 @@
 const express = require('express')
 const cookieSession = require('cookie-session')
+const path = require('path')
 const mongoose = require('mongoose')
 
 const AccountRouter = require('./routes/account')
@@ -25,6 +26,11 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000, // 1 day (in milliseconds)
 }))
 
+// set the initial entry point
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'))
+})
+
 app.use('/account', AccountRouter)
 app.use('/albums', AlbumsRouter)
 app.use('/album', AlbumRouter)
@@ -33,7 +39,15 @@ app.get('/favicon.ico', (req, res) => {
   res.status(404).send()
 })
 
-app.get('/', (req, res) => res.send('hello world!'))
+// Error Handling Middleware
+const errorMiddleware = (err, req, res, next) => {
+  res.status(500)
+  if (!res.headersSent) {
+    res.send(`error: ${err.message}`)
+  }
+}
+
+app.use(errorMiddleware)
 
 // Start listening for requests
 app.listen(port, () => {

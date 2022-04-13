@@ -13,6 +13,8 @@ router.post('/signup', async (req, res, next) => {
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(password, salt)
 
+  console.log('backend reached')
+
   try {
     await User.create({ username, password: hashedPassword })
     req.session.username = username

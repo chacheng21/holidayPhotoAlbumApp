@@ -6,7 +6,7 @@ const { Photo } = require('../models/photo')
 
 const router = express.Router()
 
-router.get('/', isAuthenticated, async (req, res, next) => {
+router.get('/:id', isAuthenticated, async (req, res, next) => {
   try {
     isAuthenticated(req, res, err => {
       if (err) {
@@ -14,7 +14,7 @@ router.get('/', isAuthenticated, async (req, res, next) => {
       }
     })
 
-    const _id = req.body._id
+    const _id = req.params.id
     const photos = await Photo.find({ album: _id })
     res.status(200)
     res.json(photos)
@@ -23,10 +23,11 @@ router.get('/', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.post('/add', isAuthenticated, async (req, res, next) => {
-  const { body } = req
+router.post('/:id/add', isAuthenticated, async (req, res, next) => {
+  const { body, params } = req
+  const { id } = params
   const {
-    image, title, description, album, location,
+    image, title, description, location,
   } = body
   let { date } = body
 
@@ -43,11 +44,11 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
 
     if (description === null || description.length === 0) {
       await Photo.create({
-        image, title, album, location, date,
+        image, title, album: id, location, date,
       })
     } else {
       await Photo.create({
-        image, title, description, album, location, date,
+        image, title, description, album: id, location, date,
       })
     }
 
@@ -77,10 +78,11 @@ router.delete('/delete', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.post('/edit', async (req, res, next) => {
-  const { body } = req
+router.post('/:id/edit', async (req, res, next) => {
+  const { body, params } = req
+  const { id } = params
   const {
-    _id, image, title, description, album, location,
+    _id, image, title, description, location,
   } = body
   let { date } = body
 
@@ -97,11 +99,11 @@ router.post('/edit', async (req, res, next) => {
 
     if (description === null || description.length === 0) {
       await Photo.findOneAndUpdate({ _id }, {
-        image, title, album, location, date,
+        image, title, album: id, location, date,
       })
     } else {
       await Photo.findOneAndUpdate({ _id }, {
-        image, title, description, album, location, date,
+        image, title, description, album: id, location, date,
       })
     }
 

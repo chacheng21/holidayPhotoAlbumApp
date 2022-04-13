@@ -8,7 +8,7 @@ const PhotoSchema = new Schema({
   title: { type: String, required: true },
   album: { type: Schema.Types.ObjectId, ref: 'Album' },
   description: { type: String },
-  date: { type: Date, default: Date.now },
+  date: { type: Date },
   location: { type: [Number], required: true },
 })
 

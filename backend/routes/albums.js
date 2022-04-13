@@ -6,7 +6,7 @@ const { Album } = require('../models/album')
 
 const router = express.Router()
 
-router.get('/', isAuthenticated, async (req, res, next) => {
+router.post('/', isAuthenticated, async (req, res, next) => {
   try {
     isAuthenticated(req, res, err => {
       if (err) {
@@ -15,7 +15,7 @@ router.get('/', isAuthenticated, async (req, res, next) => {
     })
 
     const username = req.session.username
-    const albums = await Album.find({ user: username })
+    const albums = await Album.find({ user: username }).sort({ date: -1 })
     res.status(200)
     res.json(albums)
   } catch (e) {
@@ -36,9 +36,9 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
     })
 
     if (date == null || date.length === 0) {
-      await Album.create({ title, user, date })
-    } else {
       await Album.create({ title, user })
+    } else {
+      await Album.create({ title, user, date })
     }
     res.status(200)
     res.send('Success')
@@ -89,7 +89,7 @@ router.post('/edit', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.get('/loggedIn', (req, res) => {
+router.post('/loggedIn', (req, res) => {
   const { session } = req
   const { username } = session
   const isLoggedIn = (username !== undefined)
