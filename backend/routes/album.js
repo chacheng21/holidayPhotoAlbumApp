@@ -3,10 +3,11 @@ const express = require('express')
 const isAuthenticated = require('../middlewares/isAuthenticated')
 
 const { Photo } = require('../models/photo')
+const { Album } = require('../models/album')
 
 const router = express.Router()
 
-router.get('/:id', isAuthenticated, async (req, res, next) => {
+router.post('/:id', isAuthenticated, async (req, res, next) => {
   try {
     isAuthenticated(req, res, err => {
       if (err) {
@@ -15,9 +16,26 @@ router.get('/:id', isAuthenticated, async (req, res, next) => {
     })
 
     const _id = req.params.id
-    const photos = await Photo.find({ album: _id })
+    const photos = await Photo.find({ album: _id }).sort({ date: -1 })
     res.status(200)
     res.json(photos)
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post('/:id/getName', isAuthenticated, async (req, res, next) => {
+  try {
+    isAuthenticated(req, res, err => {
+      if (err) {
+        next(err)
+      }
+    })
+
+    const _id = req.params.id
+    const album = await Album.find({ _id })
+    res.status(200)
+    res.json(album)
   } catch (e) {
     next(e)
   }
@@ -27,7 +45,7 @@ router.post('/:id/add', isAuthenticated, async (req, res, next) => {
   const { body, params } = req
   const { id } = params
   const {
-    image, title, description, location,
+    image, title, description, place, coordinate,
   } = body
   let { date } = body
 
@@ -44,11 +62,11 @@ router.post('/:id/add', isAuthenticated, async (req, res, next) => {
 
     if (description === null || description.length === 0) {
       await Photo.create({
-        image, title, album: id, location, date,
+        image, title, album: id, place, date, coordinate,
       })
     } else {
       await Photo.create({
-        image, title, description, album: id, location, date,
+        image, title, description, album: id, place, date, coordinate,
       })
     }
 
@@ -59,7 +77,7 @@ router.post('/:id/add', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.delete('/delete', isAuthenticated, async (req, res, next) => {
+router.post('/:id/delete', isAuthenticated, async (req, res, next) => {
   const { body } = req
   const { _id } = body
 
@@ -82,7 +100,7 @@ router.post('/:id/edit', async (req, res, next) => {
   const { body, params } = req
   const { id } = params
   const {
-    _id, image, title, description, location,
+    _id, image, title, description, place, coordinate,
   } = body
   let { date } = body
 
@@ -99,11 +117,11 @@ router.post('/:id/edit', async (req, res, next) => {
 
     if (description === null || description.length === 0) {
       await Photo.findOneAndUpdate({ _id }, {
-        image, title, album: id, location, date,
+        image, title, album: id, place, coordinate, date,
       })
     } else {
       await Photo.findOneAndUpdate({ _id }, {
-        image, title, description, album: id, location, date,
+        image, title, description, album: id, place, coordinate, date,
       })
     }
 
@@ -112,14 +130,6 @@ router.post('/:id/edit', async (req, res, next) => {
   } catch (e) {
     next(e)
   }
-})
-
-router.get('/loggedIn', (req, res) => {
-  const { session } = req
-  const { username } = session
-  const isLoggedIn = (username !== undefined)
-  const json = { isLoggedIn, username }
-  res.json(json)
 })
 
 module.exports = router

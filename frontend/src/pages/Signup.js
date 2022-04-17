@@ -20,7 +20,6 @@ const Signup = () => {
         navigate('../')
       }
     } catch (error) {
-      console.log(error)
       if (error.response.data.includes('error: E11000 duplicate key error collection')) {
         alert('Username already exists')
       }

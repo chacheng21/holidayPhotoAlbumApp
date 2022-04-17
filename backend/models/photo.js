@@ -9,7 +9,8 @@ const PhotoSchema = new Schema({
   album: { type: Schema.Types.ObjectId, ref: 'Album' },
   description: { type: String },
   date: { type: Date },
-  location: { type: [Number], required: true },
+  place: { type: String },
+  coordinate: { type: [Number], required: true },
 })
 
 const Photo = model('Photo', PhotoSchema)

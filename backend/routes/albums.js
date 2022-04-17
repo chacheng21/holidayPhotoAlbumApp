@@ -25,7 +25,7 @@ router.post('/', isAuthenticated, async (req, res, next) => {
 
 router.post('/add', isAuthenticated, async (req, res, next) => {
   const { body } = req
-  const { title, date } = body
+  const { title, date, place } = body
   const user = req.session.username
 
   try {
@@ -36,9 +36,11 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
     })
 
     if (date == null || date.length === 0) {
-      await Album.create({ title, user })
+      await Album.create({ title, user, place })
     } else {
-      await Album.create({ title, user, date })
+      await Album.create({
+        title, user, place, date,
+      })
     }
     res.status(200)
     res.send('Success')
@@ -47,7 +49,7 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.delete('/delete', isAuthenticated, async (req, res, next) => {
+router.post('/delete', isAuthenticated, async (req, res, next) => {
   const { body } = req
   const { _id } = body
 
@@ -58,7 +60,7 @@ router.delete('/delete', isAuthenticated, async (req, res, next) => {
       }
     })
 
-    await Album.findOne({ _id })
+    await Album.findOneAndDelete({ _id })
     res.status(200)
     res.send('Success')
   } catch (e) {
@@ -68,7 +70,9 @@ router.delete('/delete', isAuthenticated, async (req, res, next) => {
 
 router.post('/edit', isAuthenticated, async (req, res, next) => {
   const { body } = req
-  const { _id, title, date } = body
+  const {
+    _id, title, date, place,
+  } = body
 
   try {
     isAuthenticated(req, res, err => {
@@ -78,9 +82,9 @@ router.post('/edit', isAuthenticated, async (req, res, next) => {
     })
 
     if (date == null || date.length === 0) {
-      await Album.findByIdAndUpdate({ _id }, { title })
+      await Album.findByIdAndUpdate({ _id }, { title, place })
     } else {
-      await Album.findByIdAndUpdate({ _id }, { title, date })
+      await Album.findByIdAndUpdate({ _id }, { title, date, place })
     }
     res.status(200)
     res.send('Success')

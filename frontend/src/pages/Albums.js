@@ -14,7 +14,8 @@ const Albums = () => {
   // Albums JSON
   const [albums, setAlbums] = useState([])
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [update, setUpdate] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
@@ -43,7 +44,7 @@ const Albums = () => {
       }
     }
     apiCalls()
-  })
+  }, [open, update])
 
   const logout = async () => {
     const logoutRes = await axios.post('/account/logout')
@@ -81,7 +82,7 @@ const Albums = () => {
       <br />
       <Typography style={labelStyle} variant="h3"> Your Albums </Typography>
       <div id="Albums" style={albumGalleryStyle}>
-        <AlbumGallery albums={albums} />
+        <AlbumGallery albums={albums} update={update} setUpdate={setUpdate} />
       </div>
     </div>
   )

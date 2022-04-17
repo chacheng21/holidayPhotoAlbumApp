@@ -6,11 +6,14 @@ import {
 import axios from 'axios'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider, DesktopDatePicker } from '@mui/lab'
+import { toUnitless } from '@mui/material/styles/cssUtils'
 
-const QuestionForm = ({ setOpen }) => {
-  const [albumTitle, setAlbumTitle] = useState('')
-  const [albumPlace, setAlbumPlace] = useState('')
-  const [albumDate, setAlbumDate] = useState(Date.now())
+const EditAlbumForm = ({
+  setOpen, album, update, setUpdate,
+}) => {
+  const [albumTitle, setAlbumTitle] = useState(album.title)
+  const [albumDate, setAlbumDate] = useState(new Date(album.date))
+  const [albumPlace, setAlbumPlace] = useState(album.place)
 
   const handleNewDate = newDate => {
     setAlbumDate(newDate)
@@ -18,8 +21,11 @@ const QuestionForm = ({ setOpen }) => {
 
   const submit = async () => {
     try {
-      const res = await axios.post('/albums/add', { title: albumTitle, date: albumDate.toString(), place: albumPlace })
+      const res = await axios.post('/albums/edit', {
+        _id: album._id, title: albumTitle, date: albumDate.toString(), place: albumPlace,
+      })
       setOpen(false)
+      setUpdate(!update)
     } catch (error) {
       alert(error.response.data)
     }
@@ -42,9 +48,13 @@ const QuestionForm = ({ setOpen }) => {
           '& > :not(style)': { m: 2, width: '40ch' },
         }}
       >
-        <Typography variant="h5">Create A New Album</Typography>
-        <TextField id="outlined-basic" label="Album Name" variant="outlined" onChange={e => setAlbumTitle(e.target.value)} />
-        <TextField id="outlined-basic" label="Place" variant="outlined" onChange={e => setAlbumPlace(e.target.value)} />
+        <Typography variant="h5">
+          Edit Album
+          {' '}
+          {album.title}
+        </Typography>
+        <TextField id="outlined-basic" label="Album Name" variant="outlined" value={albumTitle} onChange={e => setAlbumTitle(e.target.value)} />
+        <TextField id="outlined-basic" label="Place" variant="outlined" value={albumPlace} onChange={e => setAlbumPlace(e.target.value)} />
         <br />
         <LocalizationProvider dateAdapter={DateAdapter}>
           <DesktopDatePicker
@@ -56,11 +66,11 @@ const QuestionForm = ({ setOpen }) => {
           />
         </LocalizationProvider>
         <br />
-        <Button variant="outlined" onClick={() => submit()}>Create New Album</Button>
+        <Button variant="outlined" onClick={() => submit()}>Edit Album</Button>
         <br />
       </Box>
     </div>
   )
 }
 
-export default QuestionForm
+export default EditAlbumForm

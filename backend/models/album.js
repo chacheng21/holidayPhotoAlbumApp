@@ -5,6 +5,7 @@ const { Schema, model } = mongoose
 const AlbumSchema = new Schema({
   title: { type: String, required: true },
   user: { type: String, required: true },
+  place: { type: String },
   date: { type: Date },
 })
 

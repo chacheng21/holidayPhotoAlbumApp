@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import AlbumComponent from './AlbumComponent'
 
-const AlbumGallery = ({ albums }) => (
+const AlbumGallery = ({ albums, update, setUpdate }) => (
   <div>
     <Grid sx={{ flexGrow: 1 }} container spacing={8}>
       {albums.map((album3, index) => (
@@ -16,7 +16,7 @@ const AlbumGallery = ({ albums }) => (
             <Grid container justifyContent="left" spacing={12}>
               {album3.map(album => (
                 <Grid item key={album._id}>
-                  <AlbumComponent album={album} />
+                  <AlbumComponent album={album} update={update} setUpdate={setUpdate} />
                 </Grid>
               ))}
             </Grid>

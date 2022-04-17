@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import AWS from 'aws-sdk'
 import crypto from 'crypto'
 import { promisify } from 'util'
+import { Button, Input } from '@mui/material'
 import securityCredentials from '../../../aws_info'
 
 const randomBytes = promisify(crypto.randomBytes)
 
-const ImageUpload = () => {
+const ImageUpload = ({ setImageURL }) => {
   const [isUploaded, setIsUploaded] = useState(false)
   const [imageLink, setImageLink] = useState('')
   const upload = async e => {
@@ -29,6 +30,7 @@ const ImageUpload = () => {
     }
 
     await s3.upload(uploadParams).promise().then(data => {
+      setImageURL(`https://cis-197-images.s3.amazonaws.com/${imageName}`)
       setImageLink(`https://cis-197-images.s3.amazonaws.com/${imageName}`)
       setIsUploaded(true)
     }, err => {
@@ -37,17 +39,22 @@ const ImageUpload = () => {
   }
 
   const imageStyle = {
-    width: 200,
+    height: 250,
   }
 
   return (
     <div className="UploadImage">
-      <form>
-        <input type="file" onChange={e => upload(e)} />
-        <br />
-        { isUploaded
-          && <img style={imageStyle} src={imageLink} alt="" />}
-      </form>
+      <Button
+        variant="contained"
+        component="label"
+      >
+        <input type="file" hidden onChange={e => upload(e)} />
+        Upload Image
+      </Button>
+      <br />
+      <br />
+      {isUploaded
+        && <img style={imageStyle} src={imageLink} alt="" />}
     </div>
   )
 }
