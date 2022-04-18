@@ -8,13 +8,14 @@ import axios from 'axios'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider, DesktopDatePicker } from '@mui/lab'
 import ImageUpload from './ImageUpload'
+import GoogleMaps from './PlacesSearchbar'
 
 const QuestionForm = ({ setOpen, albumID }) => {
   const [imageURL, setImageURL] = useState('')
   const [imageTitle, setImageTitle] = useState('')
   const [imageDescription, setImageDescription] = useState('')
   const [imagePlace, setImagePlace] = useState('')
-  const [imageCoordinate, setImageCoordinate] = useState([])
+  const [placeCoordinates, setPlaceCoordinates] = useState([])
   const [imageDate, setImageDate] = useState(Date.now())
 
   const handleNewDate = newDate => {
@@ -24,7 +25,7 @@ const QuestionForm = ({ setOpen, albumID }) => {
   const submit = async () => {
     try {
       const res = await axios.post(`/album/${albumID}/add`, {
-        description: imageDescription, image: imageURL, title: imageTitle, date: imageDate.toString(), place: imagePlace,
+        description: imageDescription, image: imageURL, title: imageTitle, date: imageDate.toString(), place: imagePlace, coordinate: placeCoordinates,
       })
       setOpen(false)
     } catch (error) {
@@ -43,7 +44,7 @@ const QuestionForm = ({ setOpen, albumID }) => {
         width={500}
         bgcolor="background.paper"
         position="absolute"
-        top={75}
+        top={25}
         left={700}
         sx={{
           '& > :not(style)': { m: 2, width: '55ch' },
@@ -65,6 +66,7 @@ const QuestionForm = ({ setOpen, albumID }) => {
         </LocalizationProvider>
         <br />
         <ImageUpload setImageURL={setImageURL} />
+        <GoogleMaps setPlaceCoordinates={setPlaceCoordinates} />
         <Button variant="outlined" onClick={() => submit()}>Create New Post</Button>
         <br />
       </Box>

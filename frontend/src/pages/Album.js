@@ -10,6 +10,7 @@ import {
 import axios from 'axios'
 import NewImageForm from '../components/NewImageForm'
 import PhotoGallery from '../components/PhotoGallery'
+import Maps from '../components/Maps'
 
 const Album = () => {
   const navigate = useNavigate()
@@ -19,9 +20,14 @@ const Album = () => {
   const [images, setImages] = useState([])
   const [albumName, setAlbumName] = useState('')
   const [open, setOpen] = useState(false)
+  const [openMap, setOpenMap] = useState(false)
   const [update, setUpdate] = useState(false)
+  const [coordinates, setCoordinates] = useState([])
+  const [titleArr, setTitleArr] = useState([])
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const handleOpenMap = () => setOpenMap(true)
+  const handleCloseMap = () => setOpenMap(false)
 
   useEffect(() => {
     const apiCalls = async () => {
@@ -34,6 +40,16 @@ const Album = () => {
 
         setAlbumName(getAlbum.data[0].title)
         setImages(albumJson.data)
+
+        const coordArr = []
+        const titleArray = []
+        albumJson.data.forEach(item => {
+          coordArr.push(item.coordinate)
+          titleArray.push(item.title)
+        })
+
+        setTitleArr(titleArray)
+        setCoordinates(coordArr)
       }
     }
     apiCalls()
@@ -49,29 +65,40 @@ const Album = () => {
   }
 
   const homeStyle = {
-    position: 'absolute', top: 100, left: 300,
+    position: 'absolute', top: 100, left: 200,
   }
 
   const logoutStyle = {
-    position: 'absolute', top: 100, left: 1675,
+    position: 'absolute', top: 100, left: 1575,
   }
 
   const newImageStyle = {
-    position: 'absolute', top: 300, left: 300,
+    position: 'absolute', top: 300, left: 200,
+  }
+
+  const mapButtonStyle = {
+    position: 'absolute', top: 300, left: 350,
   }
 
   const labelStyle = {
-    position: 'absolute', top: 200, left: 300,
+    position: 'absolute', top: 200, left: 200,
   }
 
   const albumGalleryStyle = {
-    position: 'absolute', top: 400, left: 300,
+    position: 'absolute', top: 400, left: 200,
   }
 
   return (
     <div>
       <div id="Button Bar">
         <Button variant="outlined" style={newImageStyle} onClick={handleOpen}>Add Photo</Button>
+        <Button variant="outlined" style={mapButtonStyle} onClick={handleOpenMap}>View Map</Button>
+        <Modal
+          open={openMap}
+          onClose={handleCloseMap}
+        >
+          <Maps coordinates={coordinates} titleArr={titleArr} />
+        </Modal>
         <Modal
           open={open}
           onClose={handleClose}
