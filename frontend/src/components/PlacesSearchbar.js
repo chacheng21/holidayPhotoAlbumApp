@@ -9,10 +9,11 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import parse from 'autosuggest-highlight/parse'
 import throttle from 'lodash/throttle'
+import securityCredentials from '../../../aws_info'
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = 'AIzaSyAlmWWMQs_GaxcopDtilF69FkT3cxmnCMI'
+const GOOGLE_MAPS_API_KEY = securityCredentials.mapsAPIKey
 
 function loadScript(src, position, id) {
   if (!position) {

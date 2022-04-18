@@ -5,6 +5,7 @@ import {
   LoadScript,
   Marker,
 } from '@react-google-maps/api'
+import securityCredentials from '../../../aws_info'
 
 const Maps = ({ titleArr, coordinates }) => {
   const [center, setCenter] = useState({
@@ -54,7 +55,7 @@ const Maps = ({ titleArr, coordinates }) => {
   return (
     <div style={divStyle}>
       <LoadScript
-        googleMapsApiKey="AIzaSyAlmWWMQs_GaxcopDtilF69FkT3cxmnCMI"
+        googleMapsApiKey={`${securityCredentials.mapsAPIKey}`}
       >
         <GoogleMap
           mapContainerStyle={containerStyle}
