@@ -9,7 +9,9 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 
-const Photo = ({ setUpdate, update, photo }) => {
+const Photo = ({
+  setUpdate, update, photo, albumID,
+}) => {
   const navigate = useNavigate()
 
   const {
@@ -32,8 +34,10 @@ const Photo = ({ setUpdate, update, photo }) => {
   const dateString = `${date.getFullYear()}-${month}-${day}`
 
   const openImage = () => {
-    navigate('photo', {
-      _id, image, title, place, coordinate, description,
+    navigate(`photo`, {
+      state: {
+        _id, image, title, place, coordinate, description, albumID, date,
+      },
     })
   }
 
@@ -76,7 +80,7 @@ const Photo = ({ setUpdate, update, photo }) => {
       <Typography sx={{ mb: 1.5 }} color="text.secondary">
         {`${dateString}, ${place}`}
       </Typography>
-      <Button color="error" onClick={confirmDelete}>Delete</Button>
+      <Button color="error" variant="outlined" onClick={confirmDelete}>Delete</Button>
     </div>
   )
 }

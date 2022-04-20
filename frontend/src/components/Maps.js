@@ -65,7 +65,6 @@ const Maps = ({ titleArr, coordinates }) => {
           {coordinatesObj.map((item, i) => (
             <Marker position={item} label={titleArr[i]} />
           ))}
-          <></>
         </GoogleMap>
       </LoadScript>
     </div>

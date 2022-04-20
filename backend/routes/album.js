@@ -100,7 +100,7 @@ router.post('/:id/edit', async (req, res, next) => {
   const { body, params } = req
   const { id } = params
   const {
-    _id, image, title, description, place, coordinate,
+    _id, title, description, place, coordinate,
   } = body
   let { date } = body
 
@@ -116,12 +116,12 @@ router.post('/:id/edit', async (req, res, next) => {
     }
 
     if (description === null || description.length === 0) {
-      await Photo.findOneAndUpdate({ _id }, {
-        image, title, album: id, place, coordinate, date,
+      await Photo.findByIdAndUpdate({ _id }, {
+        title, place, coordinate, date,
       })
     } else {
-      await Photo.findOneAndUpdate({ _id }, {
-        image, title, description, album: id, place, coordinate, date,
+      await Photo.findByIdAndUpdate({ _id }, {
+        title, description, place, coordinate, date,
       })
     }
 

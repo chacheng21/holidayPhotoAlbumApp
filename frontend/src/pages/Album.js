@@ -105,7 +105,7 @@ const Album = () => {
         >
           <NewImageForm setOpen={setOpen} albumID={_id} />
         </Modal>
-        <Button style={homeStyle} onClick={goHome} color="error" variant="outlined">Home</Button>
+        <Button style={homeStyle} onClick={goHome} variant="outlined">Home</Button>
         <Button style={logoutStyle} onClick={logout} color="error" variant="outlined">Logout</Button>
       </div>
       <Typography style={labelStyle} variant="h3">
@@ -114,7 +114,7 @@ const Album = () => {
         {' '}
       </Typography>
       <div id="Photos" style={albumGalleryStyle}>
-        <PhotoGallery setUpdate={setUpdate} update={update} images={images} />
+        <PhotoGallery setUpdate={setUpdate} update={update} images={images} albumID={_id} />
       </div>
     </div>
   )
