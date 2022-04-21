@@ -115,6 +115,7 @@ const Image = () => {
           date2={date2}
           setDate={setDate}
           albumID={albumID}
+          setOpen={setOpen}
         />
       </Modal>
 

@@ -47,7 +47,7 @@ const Photo = ({
   }
 
   const confirmDelete = () => {
-    if (confirm('Are you sure you want to delete this album?')) {
+    if (confirm('Are you sure you want to delete this post?')) {
       deleteImage()
     }
   }

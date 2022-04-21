@@ -10,7 +10,7 @@ import ImageUpload from './ImageUpload'
 import GoogleMaps from './PlacesSearchbar'
 
 const EditImageForm = ({
-  _id, title2, setTitle, place2, setPlace, description2, setDescription, date2, setDate, albumID,
+  _id, title2, setTitle, place2, setPlace, description2, setDescription, date2, setDate, albumID, setOpen,
 }) => {
   const [imageTitle, setImageTitle] = useState(title2)
   const [imageDescription, setImageDescription] = useState(description2)
@@ -27,11 +27,11 @@ const EditImageForm = ({
       const res = await axios.post(`/album/${albumID}/edit`, {
         _id, description: imageDescription, title: imageTitle, date: imageDate.toString(), place: imagePlace, coordinate: placeCoordinates,
       })
-      console.log(res)
       setTitle(imageTitle)
       setPlace(imagePlace)
       setDescription(imageDescription)
       setDate(imageDate)
+      setOpen(false)
     } catch (error) {
       alert(error.response.data)
     }
@@ -55,9 +55,9 @@ const EditImageForm = ({
         }}
       >
         <Typography variant="h5">Edit Post</Typography>
-        <TextField id="outlined-basic" label="Title" variant="outlined" onChange={e => setImageTitle(e.target.value)} />
-        <TextField id="outlined-basic" label="Description" variant="outlined" onChange={e => setImageDescription(e.target.value)} />
-        <TextField id="outlined-basic" label="Place" variant="outlined" onChange={e => setImagePlace(e.target.value)} />
+        <TextField id="outlined-basic" label="Title" variant="outlined" value={imageTitle} onChange={e => setImageTitle(e.target.value)} />
+        <TextField id="outlined-basic" label="Description" variant="outlined" value={imageDescription} onChange={e => setImageDescription(e.target.value)} />
+        <TextField id="outlined-basic" label="Place" variant="outlined" value={imagePlace} onChange={e => setImagePlace(e.target.value)} />
         <br />
         <LocalizationProvider dateAdapter={DateAdapter}>
           <DesktopDatePicker
