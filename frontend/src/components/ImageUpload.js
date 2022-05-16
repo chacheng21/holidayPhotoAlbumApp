@@ -3,7 +3,7 @@ import AWS from 'aws-sdk'
 import crypto from 'crypto'
 import { promisify } from 'util'
 import { Button, Input } from '@mui/material'
-import securityCredentials from '../../../aws_info'
+import securityCredentials from '../../../config'
 
 const randomBytes = promisify(crypto.randomBytes)
 

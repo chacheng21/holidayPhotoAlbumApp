@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import parse from 'autosuggest-highlight/parse'
 import throttle from 'lodash/throttle'
-import securityCredentials from '../../../aws_info'
+import securityCredentials from '../../../config'
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.

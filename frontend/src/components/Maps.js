@@ -5,7 +5,7 @@ import {
   LoadScript,
   Marker,
 } from '@react-google-maps/api'
-import securityCredentials from '../../../aws_info'
+import securityCredentials from '../../../config'
 
 const Maps = ({ titleArr, coordinates }) => {
   const [center, setCenter] = useState({
