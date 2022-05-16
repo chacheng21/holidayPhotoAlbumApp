@@ -55,4 +55,4 @@ To get a local copy up and running follow these simple example steps.
 <img width="1537" alt="Screenshot 2022-05-17 at 12 15 11 AM" src="https://user-images.githubusercontent.com/70919900/168697758-ff8ac49a-a597-42e7-ab9b-960f8b5c1919.png">
 
 ## Video Demo Link
-[Video Link](https://drive.google.com/file/d/1ArGZiuRyIfbmhePHRGxqTdM6mhNLu75m/view?usp=sharing)
+[Video Link](https://youtu.be/6Yzo_-CHhL4)
