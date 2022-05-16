@@ -10,7 +10,8 @@ const AlbumRouter = require('./routes/album')
 const app = express()
 const port = process.env.PORT || 3000
 
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://chacheng:0156@cluster0.f2fnk.mongodb.net/photoAlbumCluster'
+// ENTER YOUR MONGO DB CLUSTER BELOW
+const MONGO_URI = process.env.MONGODB_URI || 'YOUR_MONGODB_CLUSTER_LINK'
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
