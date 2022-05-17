@@ -1,5 +1,5 @@
 <!-- ABOUT THE PROJECT -->
-## Photo Album Web App
+## Holiday Photo Album Web App
 
 ### Built With
 
@@ -10,6 +10,10 @@
 * Material UI
 * AWS S3
 * Google Maps API
+
+### Project Description
+
+This photo album web app is designed for people to organise their photos into different holidays (albums) to look back and reflect on it later. Features such as adding a caption, date, short description, and location for each photo help users relive their experience when looking back at their photos. The web app also allows users to view all the places they've taken photos under one map, as shown in the screenshots and video demo later on.
 
 ### Setup
 
